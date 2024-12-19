@@ -159,7 +159,7 @@ export default function StudyPlanManager() {
   }
 
   return (
-    <div className="p-6 space-y-6 border rounded-lg bg-white dark:bg-gray-800 ">
+    <div className="p-6 space-y-6 border rounded-lg bg-white dark:bg-black ">
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="studyPlans">
           {(provided) => (

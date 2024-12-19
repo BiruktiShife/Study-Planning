@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+// import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -59,44 +59,14 @@ export default function ProgressTrack() {
     fetchStudyPlans();
   }, []);
 
-  // Calculate Overall Progress
   const completedPlans = studyPlans.filter((plan) => plan.completed).length;
   const totalPlans = studyPlans.length;
   const progress = totalPlans
     ? Math.round((completedPlans / totalPlans) * 100)
     : 0;
 
-  // Calculate Productive Hours
-  const productiveHours = studyPlans.reduce((acc, plan) => {
-    plan.schedule.forEach((hour, idx) => {
-      acc[idx] = (acc[idx] || 0) + parseFloat(hour);
-    });
-    return acc;
-  }, [] as number[]);
-
-  const graphData = {
-    labels: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    datasets: [
-      {
-        label: "Productive Hours",
-        data: productiveHours,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
-
   if (isLoading) {
-    return <p>Loading study plans...</p>;
+    return <p>Loading Progress...</p>;
   }
 
   if (error) {
@@ -118,25 +88,6 @@ export default function ProgressTrack() {
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
           {progress}% Completed ({completedPlans}/{totalPlans})
         </p>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold">Productive Hours</h3>
-        {productiveHours.length > 0 ? (
-          <Bar
-            data={graphData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: true,
-                },
-              },
-            }}
-          />
-        ) : (
-          <p className="text-gray-500">No productive hours recorded yet.</p>
-        )}
       </div>
 
       <div>
